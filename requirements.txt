@@ -17,7 +17,6 @@ click-repl==0.3.0
 cloudinary==1.40.0
 coinbase-commerce==1.0.1
 colorama==0.4.6
-crispy-bootstrap5==2024.2
 cryptography==41.0.2
 defusedxml==0.7.1
 dj-database-url==2.0.0
