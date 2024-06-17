@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block heading_title %}
+
+   Reservations
+
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    }
+  </style>
+
+<div class="container">
+
+<div class="row">
+    {% for reserve in reservations_made %}
+    <div class="col-md-4">
+      <div class="card">
+        <h5 class="card-header" style="text-align: left">{{ reserve.name }}</h5>
+        <div class="card-body">
+          
+          <h5 class="card-title"></h5>
+          <p class="card-text">{{ reserve.table }}.</p>
+          <a href="{% url 'details' reserve.id %}" class="btn btn-primary btn-sm">View</a>
+        </div>
+      </div>
+    </div>
+   {% endfor %}
+</div></br>
+</center>
+</div>
+
+{% endblock %}

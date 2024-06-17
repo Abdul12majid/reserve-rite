@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block heading_title %}
+
+   About
+
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    }
+  </style>
+
+<div class="container">
+
+<div class="row">
+    
+    <div class="col-md-4">
+      <div class="card">
+        <h5 class="card-header" style="text-align: left">{{ reserve.name }}</h5>
+        <div class="card-body">
+          
+          <h5 class="card-title"></h5>
+          <p class="card-text">Table: {{ reserve.table }} {{ reserve.table.location}}.</p>
+          <p class="card-text">Date: {{ reserve.date }}.</p>
+          <p class="card-text">Time: {{ reserve.time }}.</p>
+          <p class="card-text">Message: {{ reserve.message }}.</p>
+          <a href="{% url 'cancel' reserve.id %}" class="btn btn-primary btn-sm">Cancel Reservation</a>
+        </div>
+      </div>
+    </div>
+   
+</div></br>
+</center>
+</div>
+
+{% endblock %}
