@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-tqp@#3f86-!tz*c0spvi!_if=&r+x0-u%-&@g1nit*#%e2^hs&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cryptovault-zojn.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'reserve-rite.onrender.com']
 
 
 # Application definition
