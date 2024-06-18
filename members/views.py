@@ -32,7 +32,7 @@ def login_user(request):
 			else:
 				print('incorrect password')
 				messages.success(request, ('incorrect details'))
-				return redirect('home_index')
+				return redirect('login-user')
 		else:
 			messages.success(request, ('Account does not exists, kindly create one.'))
 			print('account does not exist')
@@ -51,10 +51,10 @@ def register(request):
 		if password1==password2:
 			if User.objects.filter(username=username).exists():
 				a = User.objects.filter(username=username).first()
-				return render(request, 'register.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'a':a})
+				return render(request, 'register_user.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'a':a})
 			elif User.objects.filter(email=email).exists():
 				b = User.objects.filter(email=email).exists()
-				return render(request, 'register.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'b':b})
+				return render(request, 'register_user.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'b':b})
 			else:
 				user = User.objects.create_user(first_name=first_name, username=username, last_name=last_name, email=email, password=password2)
 				user.save()
@@ -66,5 +66,5 @@ def register(request):
 		else:
 			messages.success(request, ('Password does not match, try again'))
 			c = password1==password2
-			return render(request, 'register.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'c':c})
+			return render(request, 'register_user.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'c':c})
 	return render(request, 'register_user.html', {})

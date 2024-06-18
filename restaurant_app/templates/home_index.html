@@ -60,7 +60,11 @@
                         <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                         <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                     </div>
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'book_table' %}" class="btn btn-primary py-2 px-4">Book A Table</a>
+                    {% else %}
+                    <a href="{% url 'book_table' %}" class="btn btn-primary py-2 px-4">Not signed in ?</a>
+                    {% endif %}
                 </div>
             </nav>
 
@@ -68,9 +72,13 @@
                 <div class="container my-5 py-5">
                     <div class="row align-items-center g-5">
                         <div class="col-lg-6 text-center text-lg-start">
-                            <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br>Delicious Meal</h1>
-                            <p class="text-white animated slideInLeft mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                            <h1 class="display-3 text-white animated slideInLeft">Welcome to<br>ReserveRite</h1>
+                            <p class="text-white animated slideInLeft mb-4 pb-2">Book your table online and enjoy a seamless dining experience.</p>
+                            {% if request.user.is_authenticated %}
                             <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                            {% else %}
+                            <a href="{% url 'register' %}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Get Started</a>
+                            {% endif %}
                         </div>
                         <div class="col-lg-6 text-center text-lg-end overflow-hidden">
                             <img class="img-fluid" src="img/hero.png" alt="">

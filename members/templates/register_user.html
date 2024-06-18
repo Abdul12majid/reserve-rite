@@ -16,11 +16,19 @@
 	<body>
 	<section class="ftco-section">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login #04</h2>
+			<div class="container">
+			<div class="container">
+				{% if messages %}
+				{% for message in messages %}
+
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				    {{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				 
 				</div>
-			</div>
+				{% endfor %}
+				{% endif %}
+				</div></br>
 			<div class="row justify-content-center">
 				<div class="col-md-12 col-lg-10">
 					<div class="wrap d-md-flex">
@@ -29,7 +37,7 @@
 						<div class="login-wrap p-4 p-md-5">
 			      	<div class="d-flex">
 			      		<div class="w-100">
-			      			<h3 class="mb-4">Sign In</h3>
+			      			<h3 class="mb-4">Sign Up</h3>
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
@@ -41,16 +49,23 @@
 							<form method="POST" validate>
 								{% csrf_token %}
 								<div class="form-group mb-3">
-			      			<label class="label" for="name">Last Name</label>
+			      			<label class="label" for="name">First Name</label>
 			      			<input type="text" name="first_name" class="form-control" placeholder="Firstname" required>
+			      			{% if a %}
+			      			<p style="color: red;">User Exists, pick another</p>
+			      			{% endif %}
 			      		</div>
 			      		<div class="form-group mb-3">
-			      			<label class="label" for="name">First Name</label>
+			      			<label class="label" for="name">Last Name</label>
 			      			<input type="text" name="last_name" class="form-control" placeholder="Lastname" required>
+			      			
 			      		</div>
 			      		<div class="form-group mb-3">
 			      			<label class="label" for="name">Email</label>
 			      			<input type="email" name="email" class="form-control" placeholder="input Email" required>
+			      			{% if b %}
+			      			<p style="color: red;">Email Exists, pick another</p>
+			      			{% endif %}
 			      		</div>
 		            <div class="form-group mb-3">
 		            	<label class="label" for="password">Password</label>
@@ -75,7 +90,7 @@
 									</div>
 		            </div>
 		          </form>
-		          <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
+		          <p class="text-center">Already a member? <a href="{% url 'login-user' %}">Sign In</a></p>
 		        </div>
 		      </div>
 				</div>

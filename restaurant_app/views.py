@@ -9,7 +9,7 @@ def index(request):
 	context = {
 	"tables":tables,
 	}
-	return render(request, 'index.html', context)
+	return render(request, 'home_index.html', context)
 
 def home_index(request):
 	return render(request, 'home_index.html')
@@ -41,6 +41,7 @@ def book_home_table(request):
 				)
 
 			booking.save()
+			messages.success(request, ('reservations successfully made'))
 			table_id.is_available = False
 			table_id.save()
 			book_id = Booking.objects.filter(name=name).last()
@@ -69,6 +70,7 @@ def book_home_table(request):
 				status=get_status,
 				)
 			booking.save()
+			messages.success(request, ('reservations successfully made'))
 			print(f'{date}, {message}, {time}')
 
 	return redirect('index')
@@ -99,7 +101,6 @@ def cancel_reservation(request, pk):
 	return redirect('reservations')
 
 
-@login_required(login_url='login-user')
 def book_table(request):
 	tables = Table.objects.filter(is_available=True)
 	context = {

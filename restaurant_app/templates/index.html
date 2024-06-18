@@ -324,6 +324,18 @@
     <!-- Main content -->
     <div class="main-content">
       <div class="hero-text">
+        <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         
+        </div>
+        {% endfor %}
+        {% endif %}
+        </div></br>
         <p class="rprimary text-center first-text">Welcome to our Restaurant!</p>
         <p class="bottom-text">Book your table online and enjoy a seamless dining experience.</p>
         <button class="bg-yellow rounded-pill rwhite hero-button" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalLong">BOOK A TABLE</button>
