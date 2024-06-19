@@ -34,6 +34,7 @@ class Booking(models.Model):
 	name = models.CharField(max_length=50, blank=False)
 	email = models.CharField(max_length=150, blank=False)
 	contact = models.CharField(max_length=50, blank=True)
+	guests = models.IntegerField(default=1, blank=True)
 	date = models.DateField(auto_now_add=True)
 	time = models.CharField(max_length=50, blank=False)
 	message = models.TextField("Enquiry", blank=True)

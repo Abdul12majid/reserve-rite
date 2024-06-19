@@ -1,46 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
 
-{% block heading_title %}
 
-   About
-
-{% endblock %}
 
 {% block content %}
 
-<style>
-    .card {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease-in-out;
-    }
-
-    .card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
-    }
-  </style>
-
-<div class="container">
-
-<div class="row">
-    
-    <div class="col-md-4">
-      <div class="card">
-        <h5 class="card-header" style="text-align: left">{{ reserve.name }}</h5>
-        <div class="card-body">
+<div class="col-xxl-4 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Booking Info</div>
+      </div>
+      <div class="card-body">
+        <p>Table Type: {{ get_booking.table }}</p>
+        <p>Date: {{ get_booking.date }}</p>
+        <p>Time: {{ get_booking.time }}</p>
+        <p>Number of guests: {{ get_booking.guests }}</p>
+        <p>Request: {{ get_booking.message }}</p>
+        {% if get_booking.status.name == "Pending" %}
+        <p>Status: <span class="badge shade-blue min-90">Processing</span> </p>
+        {% elif get_booking.status.name == "Approved" %}
+        <p>Status: <span class="badge shade-green min-90">Approved</span> </p>
+         {% elif get_booking.status.name == "Cancelled" %}
+        <p>Status: <span class="badge shade-red min-90">Cancelled</span> 
           
-          <h5 class="card-title"></h5>
-          <p class="card-text">Table: {{ reserve.table }} {{ reserve.table.location}}.</p>
-          <p class="card-text">Date: {{ reserve.date }}.</p>
-          <p class="card-text">Time: {{ reserve.time }}.</p>
-          <p class="card-text">Message: {{ reserve.message }}.</p>
-          <a href="{% url 'cancel' reserve.id %}" class="btn btn-primary btn-sm">Cancel Reservation</a>
-        </div>
+        {% endif %}</p>
+
       </div>
     </div>
-   
-</div></br>
-</center>
-</div>
+  </div>
 
 {% endblock %}

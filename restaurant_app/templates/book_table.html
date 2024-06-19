@@ -8,6 +8,19 @@
 
 {% block content %}
 
+<div class="container">
+{% if messages %}
+{% for message in messages %}
+
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+    {{ message }}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ 
+</div>
+{% endfor %}
+{% endif %}
+</div></br>
+
 <!-- Reservation Start -->
         <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
             <div class="row g-0">
@@ -25,6 +38,30 @@
                         <form method="POST" action="{% url 'book_home_table' %}">
                             {% csrf_token %}
                             <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="text" name="name" class="form-control" id="date" required>
+                                        <label for="datetime">Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="email" name="email" class="form-control" id="date" required>
+                                        <label for="datetime">Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="number" name="contact" class="form-control" id="date" required>
+                                        <label for="datetime">Contact</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="number" name="guests" class="form-control" id="date" required>
+                                        <label for="datetime">Guests</label>
+                                    </div>
+                                </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-floating date" id="date3" data-target-input="nearest">

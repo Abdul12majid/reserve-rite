@@ -23,6 +23,7 @@ def book_home_table(request):
 			time = request.POST['time']
 			message = request.POST['message']
 			table = request.POST['table']
+			guests = request.POST['guests']
 			table_id = Table.objects.get(id=table)
 			name = user.username
 			email = user.email
@@ -38,6 +39,7 @@ def book_home_table(request):
 				message=message,
 				table=table_id,
 				status=get_status,
+				guests=guests
 				)
 
 			booking.save()
@@ -60,6 +62,8 @@ def book_home_table(request):
 			time = request.POST['time']
 			message = request.POST['message']
 			table = request.POST['table']
+			table_id = Table.objects.get(id=table)
+			guests = request.POST['guests']
 			booking = Booking.objects.create(
 				name=name, 
 				email=email,
@@ -67,8 +71,9 @@ def book_home_table(request):
 				date=date,
 				time=time,
 				message=message,
-				table=table,
+				table=table_id,
 				status=get_status,
+				guests=guests,
 				)
 			booking.save()
 			messages.success(request, ('reservations successfully made'))
@@ -78,10 +83,10 @@ def book_home_table(request):
 
 @login_required(login_url='login-user')
 def reservations(request):
-	reservations_made = request.user.profile.bookings.all().order_by('-id')
+	bookings = request.user.profile.bookings.all().order_by('-id')
 	context = {
-	"reservations_made":reservations_made,
-	"full_reservations": [booking for booking in reservations_made],  # Include full details
+	"bookings":bookings,
+	
 	}
 	return render(request, 'reservations.html', context)
 
@@ -91,18 +96,23 @@ def cancel_reservation(request, pk):
 	pending = Status.objects.get(id=2)
 	approved = Status.objects.get(id=1)
 	get_booking = Booking.objects.get(id=pk)
-	if get_booking.status == approved:
+	if get_booking.status.name == "Approved":
+		print('approved')
 		messages.success(request, "Reservation already approved, can't cancel.")
-	elif get_booking.status == pending:
+	elif get_booking.status.name == "Pending":
 		get_booking.status = cancel
+		
+		get_booking.save()
+		
 		get_booking.table.is_available = True
 		get_booking.table.save()
-		get_booking.status.save()
+		
 		messages.success(request, "Reservation cancelled.")
-	elif get_booking.status == cancel:
+	elif get_booking.status.name == "Cancelled":
+		print('cancel')
 		messages.success(request, "Reservation already cancelled.")
 	
-	return redirect('reserve_index')
+	return redirect(request.META.get("HTTP_REFERER"))
 
 
 def book_table(request):
@@ -191,30 +201,40 @@ def profile(request):
 	return render(request, 'profile.html')
 
 
-from django.http import JsonResponse
-from .models import Booking  # Replace with your booking model
+def details(request, pk):
+	get_booking = Booking.objects.get(id=pk)
+	get_booking = Booking.objects.get(id=26)
+	print(get_booking.status.name)
 
-def details(request, booking_id):
-    try:
-        booking = Booking.objects.get(id=booking_id)
-        # Prepare the booking details dictionary (see explanation below)
-        booking_details = {
-            'date': booking.date,
-            'time': booking.time,
-            'status': booking.status.name,
-            # ... add other relevant booking details
-        }
-        return JsonResponse(booking_details)
-    except Booking.DoesNotExist:
-        return JsonResponse({'error': 'Booking not found'}, status=404)
-
+	context = {
+		'get_booking':get_booking
+	}
+	return render(request, 'details.html', context)
 
 def edit_reservation(request, pk):
 	user = request.user
-	reservation = user.profile.selected_reservation
-	get_reservation = Booking.objects.get()
+	get_booking = Booking.objects.get(id=pk)
+	tables = Table.objects.filter(is_available=True)
+	if request.method == 'POST':
+		date = request.POST['date']
+		time = request.POST['time']
+		message = request.POST['message']
+		table = request.POST['table']
+		table_id = Table.objects.get(id=table)
+
+		guests = request.POST['guests']
+		table_id = Table.objects.get(id=table)
+		get_booking.date = date
+		get_booking.time = time
+		get_booking.message = message
+		get_booking.table = table_id
+		get_booking.save()
+		messages.success(request, ('Reservation successfully updated.'))
+
+	
 	context = {
-		'reservation':reservation,
+		'get_booking':get_booking,
+		'tables':tables
 	}
-	return render(request, 'profile.html', context)
+	return render(request, 'update_reservation.html', context)
 
