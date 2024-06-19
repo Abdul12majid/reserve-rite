@@ -68,3 +68,8 @@ def register(request):
 			c = password1==password2
 			return render(request, 'register_user.html', {'first_name':first_name, 'username':username, 'last_name':last_name, 'email':email, 'c':c})
 	return render(request, 'register_user.html', {})
+
+
+def logout_user(request):
+	logout(request)
+	return redirect('index')

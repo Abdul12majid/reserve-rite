@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Booking, Table, Status, Message
+from .models import Profile, Booking, Table, Status, Message, Notification
 from django.contrib.auth.models import Group, User
 
 # Register your models here.
@@ -7,6 +7,7 @@ admin.site.unregister(Group)
 admin.site.register(Booking)
 admin.site.register(Table)
 admin.site.register(Status)
+admin.site.register(Notification)
 
 @admin.register(Message)
 class VenueAdmin(admin.ModelAdmin):

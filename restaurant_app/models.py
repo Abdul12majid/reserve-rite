@@ -50,7 +50,7 @@ class Profile(models.Model):
 	contact = models.CharField(blank=True, max_length=500)
 	bookings = models.ManyToManyField(Booking, related_name='book', blank=True)
 	selected_choice = models.CharField(blank=True, max_length=500)
-	selected_plan_paid = models.BooleanField(default=False)
+	selected_reservation = models.CharField(max_length=300, blank=True)
 
 	def __str__(self):
 		return f'{self.user.username}'
@@ -61,3 +61,9 @@ def create_profile(sender, instance, created, **kwargs):
 		profile.save()
 
 post_save.connect(create_profile, sender=User)
+
+class Notification(models.Model):
+	message = models.TextField("Message", blank=True)
+
+	def __str__(self):
+		return str(self.name)
