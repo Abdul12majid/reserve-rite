@@ -89,18 +89,18 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label">First name</label>
-						<input name="first_name" type="text" class="form-control">
+						<input name="first_name" type="text" class="form-control" required>
 						{% if a %}
 						<p style="color: red;">Account with this name exists, pick another.</p>
 						{% endif %}
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Last name</label>
-						<input name="last_name" type="text" class="form-control">
+						<input name="last_name" type="text" class="form-control" required>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Email</label>
-						<input name="email" type="text" class="form-control">
+						<input name="email" type="text" class="form-control" required>
 						{% if b %}
 						<p style="color: red;">Account with this email exists, pick another.</p>
 						{% endif %}
@@ -112,7 +112,7 @@
 							</label>
 							</div>
 						</div>
-						<input type="password" name="password1" class="form-control">
+						<input type="password" name="password1" class="form-control" required>
 					</div>
 					<div class="mb-3">
 						<div class="d-flex justify-content-between">
@@ -122,7 +122,7 @@
 								<label class="form-check-label" for="savePassword">Save Password</label>
 							</div>
 						</div>
-						<input type="password" name="password2" class="form-control">
+						<input type="password" name="password2" class="form-control" required>
 					</div>
 					<div class="login-form-actions">
 						<button type="submit" class="btn"> <span class="icon"> <i class="bi bi-arrow-right-circle"></i> </span>
