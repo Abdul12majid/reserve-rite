@@ -28,10 +28,10 @@ def login_user(request):
 				print('Logged in')
 				x = str(request.user.id)
 
-				return redirect('home_index')
+				return redirect('reserve_index')
 			else:
 				print('incorrect password')
-				messages.success(request, ('incorrect details'))
+				messages.success(request, ('Incorrect Username or Password.'))
 				return redirect('login-user')
 		else:
 			messages.success(request, ('Account does not exists, kindly create one.'))
