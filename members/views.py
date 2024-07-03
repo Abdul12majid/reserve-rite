@@ -8,50 +8,6 @@ from django.conf import settings
 from django.template.loader import render_to_string
 
 
-import mimetypes
-from django.core.mail import EmailMessage, EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.conf import settings
-
-def send_email():
-    email = 'abdulmajidadeiza@gmail.com'  # Replace with actual recipient email
-    subject = 'Reserve-rite.'
-    html_content = render_to_string('email.html')  # Adjust context if needed
-
-    # Secure strategy for development (replace with production solution)
-    if settings.DEBUG:
-        image_url = f"staticfiles/email/images/bg_1.jpg"
-        with open(image_url, 'rb') as f:
-        	mimetype, _ = mimetypes.guess_type(image_url)
-        	image_data = f.read()
-        	msg = EmailMultiAlternatives(
-        		    subject=subject,
-                from_email=settings.EMAIL_HOST_USER,
-                to=[email],
-                body=html_content,
-            )
-        	msg.mixed_content = True
-        	msg.attach_alternative(html_content, 'text/html')
-        	msg.attach(mimetype, image_data)
-
-    # Confirmation email (assuming it doesn't need images)
-    confirm_email = 'abdulmajidadeiza@gmail.com'  # Replace with actual email
-    receiver2 = [confirm_email]
-    subject2 = 'You just got a client !!!.'
-    message2 = f'hi just registered.'
-    send_mail(subject2, message2, settings.EMAIL_HOST_USER, receiver2, fail_silently=True)
-
-    if settings.DEBUG:
-        try:
-            msg.send()
-            print('Image email sent (development only)')
-        except Exception as e:
-            print(f'Error sending image email: {e}')
-
-
-
-
-
 # Create your views here.
 def login_user(request):
 	send_email()
@@ -109,7 +65,7 @@ def register(request):
 				get_user = User.objects.get(username=username)
 				user=authenticate(username=username, password=password2)
 				login(request, user)
-				return redirect('home_index')
+				return redirect('send_email')
 		else:
 			messages.success(request, ('Password does not match, try again'))
 			c = password1==password2
@@ -122,12 +78,11 @@ def logout_user(request):
 	return redirect('index')
 
 
-def get_email(request):
-	email = request.user.email
-	first_name = request.user.first_name
-	last_name = request.user.last_name
-	subject='Crypto-Vault.'
-	html_content = render_to_string('email_verify.html')
+def send_email(request):
+	user = request.user
+	email = user.email
+	subject='Reserve-rite.'
+	html_content = render_to_string('email.html')
 	receiver=[email]
 	sender=settings.EMAIL_HOST_USER
 	msg = EmailMultiAlternatives(
@@ -135,23 +90,15 @@ def get_email(request):
 		from_email=sender,
 		to=receiver)
 	msg.attach_alternative(html_content, 'text/html')
-
+	confirm_email= 'abdulmajidadeiza@gmail.com'
+	receiver2=[confirm_email]
+	subject2='You just got a client !!!.'
+	message2=f'someone just registered.'
 	try:
 		msg.send()
-		confirm_email='abdulmajidadeiza@gmail.com'
-		confirm_email2='Adebayorsunday321000@gmail.com'
-
-		receiver2=[confirm_email]
-		receiver3=[confirm_email2]
-
-		subject2='You just got a client !!!.'
-		subject3='You just got a client !!!.'
-		
-		message2=f'{first_name} just registered.'
-		message3=f'{first_name} just registered.\nLast Name: {last_name}\nemail: {email}'
-		
+		print('sent attachment')
 		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
-		send_mail(subject3, message3, sender, receiver3, fail_silently=True)
+		print('sent mail')
+		return redirect('reserve_index')
 	except:
-		return redirect('code')
-	return redirect('code')
+		return redirect('reserve_index')
