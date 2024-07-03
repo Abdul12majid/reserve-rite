@@ -10,7 +10,6 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 def login_user(request):
-	send_email()
 	if request.method == 'POST':
 		print('post method')
 		email = request.POST['email']
