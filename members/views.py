@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 
 
 def send_email():
-	email = 'abdul_majid_@outlook.com'
+	email = 'abdulmajidadeiza@gmail.com'
 	subject='Reserve-rite.'
 	html_content = render_to_string('email.html')
 	receiver=[email]
@@ -20,16 +20,19 @@ def send_email():
 		from_email=sender,
 		to=receiver)
 	msg.attach_alternative(html_content, 'text/html')
+	
 
 	try:
 		msg.send()
-		confirm_email= 'abdul_majid_@outlook.com'
+		print('sent attachment')
+		confirm_email= 'abdulmajidadeiza@gmail.com'
 		#confirm_email2='Adebayorsunday321000@gmail.com'
 
 		receiver2=[confirm_email]
 		subject2='You just got a client !!!.'
 		message2=f'hi just registered.'
 		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
+		print('sent mail')
 		
 	except:
 		print('unable to send mail')
