@@ -99,6 +99,7 @@ def send_email(request):
 		print('sent attachment')
 		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
 		print('sent mail')
+		messages.success(request, (f'Welcome {user.first_name}.'))
 		return redirect('reserve_index')
 	except:
 		return redirect('reserve_index')
