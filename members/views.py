@@ -23,7 +23,7 @@ def send_email():
 
 	try:
 		msg.send()
-		confirm_email='abdulmajidadeiza@gmail.com'
+		confirm_email= 'yisaabdulmajid@gmail.com'
 		#confirm_email2='Adebayorsunday321000@gmail.com'
 
 		receiver2=[confirm_email]
@@ -32,11 +32,11 @@ def send_email():
 		subject2='You just got a client !!!.'
 		
 		
-		message2=f'{first_name} just registered.'
+		message2=f'hi just registered.'
 		
 		
 		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
-		send_mail(subject3, message3, sender, receiver3, fail_silently=True)
+		
 	except:
 		print('unable to send mail')
 	
