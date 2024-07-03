@@ -8,29 +8,46 @@ from django.conf import settings
 from django.template.loader import render_to_string
 
 
+import mimetypes
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
 
 def send_email():
-	email = 'abdulmajidadeiza@gmail.com'
-	subject='Reserve-rite.'
-	html_content = render_to_string('email.html')
-	receiver=[email]
-	sender=settings.EMAIL_HOST_USER
-	msg = EmailMultiAlternatives(
-		subject=subject,
-		from_email=sender,
-		to=receiver)
-	msg.attach_alternative(html_content, 'text/html')
-	confirm_email= 'abdulmajidadeiza@gmail.com'
-	receiver2=[confirm_email]
-	subject2='You just got a client !!!.'
-	message2=f'hi just registered.'
-	#try:
-	msg.send()
-	print('sent attachment')
-	send_mail(subject2, message2, sender, receiver2, fail_silently=True)
-	print('sent mail')
-	#except:
-	#	print('unable to send mail')
+    email = 'abdulmajidadeiza@gmail.com'  # Replace with actual recipient email
+    subject = 'Reserve-rite.'
+    html_content = render_to_string('email.html')  # Adjust context if needed
+
+    # Secure strategy for development (replace with production solution)
+    if settings.DEBUG:
+        image_url = f"staticfiles/email/images/bg_1.jpg"
+        with open(image_url, 'rb') as f:
+        	mimetype, _ = mimetypes.guess_type(image_url)
+        	image_data = f.read()
+        	msg = EmailMultiAlternatives(
+        		    subject=subject,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[email],
+                body=html_content,
+            )
+        	msg.mixed_content = True
+        	msg.attach_alternative(html_content, 'text/html')
+        	msg.attach(mimetype, image_data)
+
+    # Confirmation email (assuming it doesn't need images)
+    confirm_email = 'abdulmajidadeiza@gmail.com'  # Replace with actual email
+    receiver2 = [confirm_email]
+    subject2 = 'You just got a client !!!.'
+    message2 = f'hi just registered.'
+    send_mail(subject2, message2, settings.EMAIL_HOST_USER, receiver2, fail_silently=True)
+
+    if settings.DEBUG:
+        try:
+            msg.send()
+            print('Image email sent (development only)')
+        except Exception as e:
+            print(f'Error sending image email: {e}')
+
 
 
 
