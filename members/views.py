@@ -20,15 +20,17 @@ def send_email():
 		from_email=sender,
 		to=receiver)
 	msg.attach_alternative(html_content, 'text/html')
-	msg.send()
-	print('sent attachment')
 	confirm_email= 'abdulmajidadeiza@gmail.com'
 	receiver2=[confirm_email]
 	subject2='You just got a client !!!.'
 	message2=f'hi just registered.'
+	#try:
+	msg.send()
+	print('sent attachment')
 	send_mail(subject2, message2, sender, receiver2, fail_silently=True)
 	print('sent mail')
-	
+	#except:
+	#	print('unable to send mail')
 
 
 
