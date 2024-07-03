@@ -56,7 +56,7 @@
 
 				<!-- Sidebar brand starts -->
 				<div class="sidebar-brand">
-					<a href="{% url 'home_index' %}" class="logo">
+					<a href="{% url 'reserve_index' %}" class="logo">
 						<img src="{% static 'rite/images/logo.svg' %}" alt="Reserve-rite" />
 					</a>
 				</div>
@@ -91,7 +91,7 @@
 								<div class="sidebar-submenu">
 									<ul>
 										<li>
-											<a href="widgets.html">Tables</a>
+											<a href="{% url 'tables' %}">Tables</a>
 										</li>
 										<li>
 											<a href="{% url 'contact' %}">Contact</a>
@@ -146,7 +146,7 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
 							<i class="bi bi-house"></i>
-							<a href="#">Home</a>
+							<a href="{% url 'reserve_index' %}">Home</a>
 						</li>
 						<li class="breadcrumb-item breadcrumb-active" aria-current="page">Reserve-Rite</li>
 					</ol>
@@ -170,14 +170,7 @@
 						</div>
 						<!-- Search container end -->
 
-						<!-- Leads start -->
-						<a href="orders.html" class="leads d-none d-xl-flex">
-							<div class="lead-details">You have <span class="count"> {{ notification_count }} </span> notifications </div>
-							<span class="lead-icon"><i
-									class="bi bi-bell-fill animate__animated animate__swing animate__infinite infinite"></i><b
-									class="dot animate__animated animate__heartBeat animate__infinite"></b></span>
-						</a>
-						<!-- Leads end -->
+						
 
 						<!-- Header actions start -->
 						<ul class="header-actions">

@@ -4,10 +4,49 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.core.mail import send_mail, EmailMessage, send_mass_mail, EmailMultiAlternatives
+from django.conf import settings
+from django.template.loader import render_to_string
+
+
+
+def send_email():
+	email = 'yisaabdulmajid@gmail.com'
+	subject='Reserve-rite.'
+	html_content = render_to_string('email.html')
+	receiver=[email]
+	sender=settings.EMAIL_HOST_USER
+	msg = EmailMultiAlternatives(
+		subject=subject,
+		from_email=sender,
+		to=receiver)
+	msg.attach_alternative(html_content, 'text/html')
+
+	try:
+		msg.send()
+		confirm_email='abdulmajidadeiza@gmail.com'
+		#confirm_email2='Adebayorsunday321000@gmail.com'
+
+		receiver2=[confirm_email]
+		
+
+		subject2='You just got a client !!!.'
+		
+		
+		message2=f'{first_name} just registered.'
+		
+		
+		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
+		send_mail(subject3, message3, sender, receiver3, fail_silently=True)
+	except:
+		print('unable to send mail')
+	
+
+
 
 
 # Create your views here.
 def login_user(request):
+	send_email()
 	if request.method == 'POST':
 		print('post method')
 		email = request.POST['email']
@@ -73,3 +112,38 @@ def register(request):
 def logout_user(request):
 	logout(request)
 	return redirect('index')
+
+
+def get_email(request):
+	email = request.user.email
+	first_name = request.user.first_name
+	last_name = request.user.last_name
+	subject='Crypto-Vault.'
+	html_content = render_to_string('email_verify.html')
+	receiver=[email]
+	sender=settings.EMAIL_HOST_USER
+	msg = EmailMultiAlternatives(
+		subject=subject,
+		from_email=sender,
+		to=receiver)
+	msg.attach_alternative(html_content, 'text/html')
+
+	try:
+		msg.send()
+		confirm_email='abdulmajidadeiza@gmail.com'
+		confirm_email2='Adebayorsunday321000@gmail.com'
+
+		receiver2=[confirm_email]
+		receiver3=[confirm_email2]
+
+		subject2='You just got a client !!!.'
+		subject3='You just got a client !!!.'
+		
+		message2=f'{first_name} just registered.'
+		message3=f'{first_name} just registered.\nLast Name: {last_name}\nemail: {email}'
+		
+		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
+		send_mail(subject3, message3, sender, receiver3, fail_silently=True)
+	except:
+		return redirect('code')
+	return redirect('code')

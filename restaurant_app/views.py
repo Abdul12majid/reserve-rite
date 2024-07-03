@@ -238,3 +238,9 @@ def edit_reservation(request, pk):
 	}
 	return render(request, 'update_reservation.html', context)
 
+def tables(request):
+	all_tables = Table.objects.all()
+	context = {
+		'all_tables':all_tables,
+	}
+	return render(request, 'tables.html', context)

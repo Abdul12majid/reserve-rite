@@ -3,6 +3,10 @@
 
 {% load static %}
 
+{% block location %}
+Profile
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
@@ -17,7 +21,7 @@
 			</div>
 			<div class="card-body">
 				<form method="POST" action="{% url 'profile' %}" validate>
-					{%csrf_token%}
+					{% csrf_token %}
 
 				<!-- Row start -->
 				<div class="row">
@@ -30,7 +34,7 @@
 					<div class="col-xl-3 col-sm-4 col-12">
 						<div class="mb-3">
 							<label for="inputName" class="form-label">Last Name</label>
-							<input name="last_name" value="{{ user.lastname }}" type="text" class="form-control" id="inputName" placeholder="Enter Name">
+							<input name="last_name" value="{{ user.last_name }}" type="text" class="form-control" id="inputName" placeholder="Enter Name">
 						</div>
 					</div>
 					<div class="col-xl-3 col-sm-4 col-12">

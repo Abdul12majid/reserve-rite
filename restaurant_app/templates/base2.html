@@ -17,7 +17,7 @@
 		<meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
 		<meta property="og:type" content="Website">
 		<meta property="og:site_name" content="Bootstrap Gallery">
-		<link rel="shortcut icon" href="{% static 'rite/images/favicon.svg' %}">
+		<link rel="shortcut icon" href="{% static 'rite/images/logo.svg' %}">
 
 		<!-- Title -->
 		<title>Reserve Rite</title>
@@ -91,7 +91,7 @@
 								<div class="sidebar-submenu">
 									<ul>
 										<li>
-											<a href="widgets.html">Tables</a>
+											<a href="{% url 'tables' %}">Tables</a>
 										</li>
 										<li>
 											<a href="{% url 'contact' %}">Contact</a>
@@ -122,9 +122,9 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
 							<i class="bi bi-house"></i>
-							<a href="index.html">Home</a>
+							<a href="{% url 'reserve_index' %}">Home</a>
 						</li>
-						<li class="breadcrumb-item breadcrumb-active" aria-current="page">Reserve-Rite</li>
+						<li class="breadcrumb-item breadcrumb-active" aria-current="page">{% block location %} {% endblock %}</li>
 					</ol>
 					<!-- Breadcrumb end -->
 
