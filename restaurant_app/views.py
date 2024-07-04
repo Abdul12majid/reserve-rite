@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Booking, Table, Status, Message, Notification
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.mail import send_mail, EmailMessage, send_mass_mail, EmailMultiAlternatives
+from django.conf import settings
+from django.template.loader import render_to_string
 
 # Create your views here.
 def index(request):
@@ -93,8 +97,8 @@ def reservations(request):
 
 def cancel_reservation(request, pk):
 	cancel = Status.objects.get(id=3)
-	pending = Status.objects.get(id=2)
-	approved = Status.objects.get(id=1)
+	pending = Status.objects.get(id=1)
+	approved = Status.objects.get(id=2)
 	get_booking = Booking.objects.get(id=pk)
 	if get_booking.status.name == "Approved":
 		print('approved')
@@ -108,6 +112,7 @@ def cancel_reservation(request, pk):
 		get_booking.table.save()
 		
 		messages.success(request, "Reservation cancelled.")
+		return redirect('cancel_email')
 	elif get_booking.status.name == "Cancelled":
 		print('cancel')
 		messages.success(request, "Reservation already cancelled.")
@@ -203,7 +208,7 @@ def profile(request):
 
 def details(request, pk):
 	get_booking = Booking.objects.get(id=pk)
-	get_booking = Booking.objects.get(id=26)
+	#get_booking = Booking.objects.get(id=26)
 	print(get_booking.status.name)
 
 	context = {
@@ -244,3 +249,106 @@ def tables(request):
 		'all_tables':all_tables,
 	}
 	return render(request, 'tables.html', context)
+
+
+@login_required(login_url='login-user')
+def admin_page(request):
+	if request.user.is_superuser:
+		user = request.user
+		bookings = Booking.objects.all().order_by('-id')[:3]
+		#print(bookings)
+		users = User.objects.all()
+		tables = Table.objects.filter(is_available=True)
+		notifications = Notification.objects.all().order_by('-id')
+		notification_count = Notification.objects.count()
+		context = {
+		"tables":tables,
+		'user':user,
+		'users':users,
+		'bookings':bookings,
+		'notifications':notifications,
+		'notification_count':notification_count,
+		}
+		return render(request, 'admin.html', context)
+	else:
+		mssages.success(request, ('Unauthorized access, kindly log in again.'))
+		return redirect('logout-user')
+
+
+@login_required(login_url='login-user')
+def all_reservations(request):
+	bookings = Booking.objects.all().order_by('-id')
+	context = {
+	"bookings":bookings,
+	
+	}
+	return render(request, 'all_reservations.html', context)
+
+
+def approve_reservation(request, pk):
+    approved = Status.objects.get(id=2)  # Assuming ID 1 represents "approved"
+    user = request.user
+    get_booking = Booking.objects.get(id=pk)
+    y = get_booking
+    y.status = approved
+    y.save()  # Ensure the save happens after update
+    print(approved.name)
+    print(get_booking.status.name)  # Now should print the updated status name
+    print(get_booking.id)
+    booker = get_booking.name
+
+    return redirect('approve_email')
+
+
+def cancel_email(request):
+	user = request.user
+	email = user.email
+	subject='Reserve-rite.'
+	html_content = render_to_string('cancelled_reservation.html')
+	receiver=[email]
+	sender=settings.EMAIL_HOST_USER
+	msg = EmailMultiAlternatives(
+		subject=subject,
+		from_email=sender,
+		to=receiver)
+	msg.attach_alternative(html_content, 'text/html')
+	confirm_email= 'abdulmajidadeiza@gmail.com'
+	receiver2=[confirm_email]
+	subject2='cancelled !!!.'
+	message2=f'someone just got cancelled.'
+	try:
+		msg.send()
+		print('sent attachment')
+		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
+		print('sent mail')
+		messages.success(request, (f'Welcome {user.first_name}.'))
+		return redirect(request.META.get("HTTP_REFERER"))
+	except:
+		return redirect(request.META.get("HTTP_REFERER"))
+
+
+def approve_email(request):
+	user = request.user
+	email = user.email
+	subject='Reserve-rite.'
+	html_content = render_to_string('approved_reservation.html')
+	receiver=[email]
+	sender=settings.EMAIL_HOST_USER
+	msg = EmailMultiAlternatives(
+		subject=subject,
+		from_email=sender,
+		to=receiver)
+	msg.attach_alternative(html_content, 'text/html')
+	confirm_email= 'abdulmajidadeiza@gmail.com'
+	receiver2=[confirm_email]
+	subject2='Approved !!!.'
+	message2=f'someone just got approved.'
+	try:
+		msg.send()
+		print('sent attachment')
+		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
+		print('sent mail')
+		messages.success(request, (f'Welcome {user.first_name}.'))
+		return redirect(request.META.get("HTTP_REFERER"))
+	except:
+		return redirect(request.META.get("HTTP_REFERER"))

@@ -10,10 +10,10 @@
 		<!-- Card start -->
 		<div class="card">
 			<div class="card-header">
-				<div class="card-title">Edit Reservation</div>
+				<div class="card-title">Approve Reservation</div>
 			</div>
 			<div class="card-body">
-				<form method="POST" action="{% url 'book_home_table' %}" validate>
+				<form method="POST" action="" validate>
 					{%csrf_token%}
 
 				<!-- Row start -->
@@ -39,41 +39,41 @@
 					<div class="col-xl-3 col-sm-4 col-12">
 						<div class="mb-3">
 							<label for="inputNumber" class="form-label">Table</label>
-							<select placeholder='select table' name="table" id="time" class="form-control">
+							<select placeholder='select table' name="table" id="time" class="form-control" >
 		                      {% for table in tables %}
 		                    <option value="{{ table.id }}">
 		                        {{ table.name }} 
 		                        
 		                    </option>
 		                      {% endfor %}
-		                    </select required>
+		                    </select readonly required>
 		                 </div>
 					</div>
 					<div class="col-xl-3 col-sm-4 col-12">
 						<div class="mb-3">
 							<label for="inputNumber" class="form-label">Guests</label>
-							<input value="{{ get_booking.guests }}" name="guests" type="number" class="form-control" id="inputNumber" placeholder='Number of guests'>
+							<input value="{{ get_booking.guests }}" name="guests" type="number" class="form-control" id="inputNumber" placeholder='Number of guests' readonly>
 						</div>
 					</div>
 					<div class="col-xl-3 col-sm-4 col-12">
 						<div class="mb-3">
 							<label for="inputCompanyName" class="form-label">Date</label>
 							<input value="{{ get_booking.date }}" name="date" type="date" class="form-control" id="inputCompanyName"
-								placeholder="Date">
+								placeholder="Date" readonly>
 						</div>
 					</div>
 					<div class="col-xl-3 col-sm-4 col-12">
 						<div class="mb-3">
 							<label for="inputCompanyName" class="form-label">Time</label>
 							<input name="time" type="time" value="{{ get_booking.time}}" class="form-control" id="inputCompanyName"
-								placeholder="Time">
+								placeholder="Time" readonly>
 						</div>
 					</div>
 					
 					<div class="col-sm-6 col-12">
 						<div class="mb-3">
 							<label for="inputMessage" class="form-label">Message</label>
-							<textarea name="message" class="form-control" id="inputMessage" placeholder="Enter Message"
+							<textarea name="message" class="form-control" id="inputMessage" placeholder="Enter Message" readonly 
 								rows="3">{{ get_booking.message }}</textarea>
 						</div>
 					</div>
@@ -83,7 +83,7 @@
 				<!-- Form actions footer start -->
 				<div class="form-actions-footer">
 					<button class="btn btn-light">Cancel</button>
-					<button type="Submit" class="btn btn-success">Update</button>
+					<button type="Submit" class="btn btn-success">Approve</button>
 				</div>
 
 				</form>
