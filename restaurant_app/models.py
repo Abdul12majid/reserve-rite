@@ -8,6 +8,7 @@ class Table(models.Model):
 	name = models.CharField(max_length=50, blank=False)
 	location = models.CharField(max_length=150, blank=False)
 	is_available = models.BooleanField(default=True)
+	table_img = models.ImageField(blank=True, upload_to="cover/")
 
 	def __str__(self):
 		return str(self.name)
