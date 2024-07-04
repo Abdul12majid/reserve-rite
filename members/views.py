@@ -93,14 +93,14 @@ def send_email(request):
 	receiver2=[confirm_email]
 	subject2='You just got a client !!!.'
 	message2=f'someone just registered.'
-	#try:
-	msg.send()
-	print('sent attachment')
-	send_mail(subject2, message2, sender, receiver2, fail_silently=True)
-	print('sent mail')
-	messages.success(request, (f'Welcome {user.first_name}.'))
-	return redirect('reserve_index')
-	print('sent')
-	#except:
-	#	print('not sent')
-	#	return redirect('reserve_index')
+	try:
+		msg.send()
+		print('sent attachment')
+		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
+		print('sent mail')
+		messages.success(request, (f'Welcome {user.first_name}.'))
+		return redirect('reserve_index')
+		print('sent')
+	except:
+		print('not sent')
+		return redirect('reserve_index')
