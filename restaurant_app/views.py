@@ -113,6 +113,7 @@ def cancel_reservation(request, pk):
 		get_booking.table.save()
 		
 		messages.success(request, "Reservation cancelled.")
+		return redirect(request.META.get("HTTP_REFERER"))
 		
 	elif get_booking.status.name == "Cancelled":
 		print('cancel')
@@ -316,23 +317,30 @@ def cancel_email(request, pk):
 		from_email=sender,
 		to=receiver)
 	msg.attach_alternative(html_content, 'text/html')
-	confirm_email= 'abdulmajidadeiza@gmail.com'
+	confirm_email= get_booking.email
 	receiver2=[confirm_email]
-	subject2='cancelled !!!.'
+	subject2='Reservation cancelled !!!.'
 	message2=f'someone just got cancelled.'
 	try:
 		msg.send()
 		print('sent attachment')
 		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
 		print('sent mail')
-		messages.success(request, (f'Welcome {user.first_name}.'))
+		messages.success(request, (f'Booking successfully cancelled'))
 		return redirect(request.META.get("HTTP_REFERER"))
 	except:
 		return redirect(request.META.get("HTTP_REFERER"))
 
 
 def approve_email(request, pk):
+	approved = Status.objects.get(id=2)
 	user = request.user
+	get_booking = Booking.objects.get(id=pk)
+	book_id = get_booking.id
+	y = get_booking
+	y.status = approved
+	y.save()
+	#user = request.user
 	email = user.email
 	get_booking = Booking.objects.get(id=pk)
 	y = get_booking.email
@@ -354,7 +362,7 @@ def approve_email(request, pk):
 		print('sent attachment')
 		send_mail(subject2, message2, sender, receiver2, fail_silently=True)
 		print('sent mail')
-		messages.success(request, (f'Welcome {user.first_name}.'))
+		messages.success(request, (f'Booking has been approved.'))
 		return redirect(request.META.get("HTTP_REFERER"))
 	except:
 		return redirect(request.META.get("HTTP_REFERER"))

@@ -265,7 +265,7 @@
 										    <td>{{ booking.guests }}</td>
 
 										    {% if booking.status.name == "Pending" %}
-									      <td><a href="{% url 'approve' booking.id %}" class="btn btn-outline-primary btn-sm">Approve</a>&nbsp; <a href="{% url 'details' booking.id %}" class="btn btn-outline-primary btn-sm">view</a>&nbsp; <a href="{% url 'cancel' booking.id %}" class="btn btn-outline-danger btn-sm">Cancel</a></td>
+									      <td><a href="{% url 'approve_email' booking.id %}" class="btn btn-outline-primary btn-sm">Approve</a>&nbsp; <a href="{% url 'details' booking.id %}" class="btn btn-outline-primary btn-sm">view</a>&nbsp; <a href="{% url 'cancel' booking.id %}" class="btn btn-outline-danger btn-sm">Cancel</a></td>
 									      {% elif booking.status.name == "Approved" %}
 									      <td><a href="{% url 'details' booking.id %}" class="btn btn-outline-success btn-sm">View</a>&nbsp;</td>
 									      {% elif booking.status.name == "Cancelled" %}
