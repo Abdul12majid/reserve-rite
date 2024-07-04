@@ -100,6 +100,7 @@ def cancel_reservation(request, pk):
 	pending = Status.objects.get(id=1)
 	approved = Status.objects.get(id=2)
 	get_booking = Booking.objects.get(id=pk)
+	book_id = get_booking.id
 	if get_booking.status.name == "Approved":
 		print('approved')
 		messages.success(request, "Reservation already approved, can't cancel.")
@@ -112,7 +113,7 @@ def cancel_reservation(request, pk):
 		get_booking.table.save()
 		
 		messages.success(request, "Reservation cancelled.")
-		return redirect('cancel_email')
+		
 	elif get_booking.status.name == "Cancelled":
 		print('cancel')
 		messages.success(request, "Reservation already cancelled.")
@@ -289,6 +290,7 @@ def approve_reservation(request, pk):
     approved = Status.objects.get(id=2)  # Assuming ID 1 represents "approved"
     user = request.user
     get_booking = Booking.objects.get(id=pk)
+    book_id = get_booking.id
     y = get_booking
     y.status = approved
     y.save()  # Ensure the save happens after update
@@ -297,15 +299,17 @@ def approve_reservation(request, pk):
     print(get_booking.id)
     booker = get_booking.name
 
-    return redirect('approve_email')
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
-def cancel_email(request):
+def cancel_email(request, pk):
 	user = request.user
 	email = user.email
+	get_booking = Booking.objects.get(id=pk)
+	y = get_booking.email
 	subject='Reserve-rite.'
 	html_content = render_to_string('cancelled_reservation.html')
-	receiver=[email]
+	receiver=[y]
 	sender=settings.EMAIL_HOST_USER
 	msg = EmailMultiAlternatives(
 		subject=subject,
@@ -327,12 +331,14 @@ def cancel_email(request):
 		return redirect(request.META.get("HTTP_REFERER"))
 
 
-def approve_email(request):
+def approve_email(request, pk):
 	user = request.user
 	email = user.email
+	get_booking = Booking.objects.get(id=pk)
+	y = get_booking.email
 	subject='Reserve-rite.'
 	html_content = render_to_string('approved_reservation.html')
-	receiver=[email]
+	receiver=[y]
 	sender=settings.EMAIL_HOST_USER
 	msg = EmailMultiAlternatives(
 		subject=subject,

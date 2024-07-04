@@ -19,8 +19,8 @@ urlpatterns = [
     path('admin_page', views.admin_page, name='admin_page'),
     path('all_reservations', views.all_reservations, name='all_reservations'),
     path('approve_reservation/<int:pk>', views.approve_reservation, name='approve'),
-    path('cancel_email', views.cancel_email, name='cancel_email'),
-    path('approve_email', views.approve_email, name='approve_email'),
+    path('cancel_email/<int:pk>', views.cancel_email, name='cancel_email'),
+    path('approve_email/<int:pk>', views.approve_email, name='approve_email'),
      
 ]
 
