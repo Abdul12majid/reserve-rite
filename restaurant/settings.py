@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tqp@#3f86-!tz*c0spvi!_if=&r+x0-u%-&@g1nit*#%e2^hs&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'reserve-rite.onrender.com']
 
@@ -147,8 +147,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.office365.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER='reserve-rite@outlook.com'
-EMAIL_HOST_PASSWORD='yhcmttswjvijcuoy'
+EMAIL_HOST_USER='reserve_rite@outlook.com'
+EMAIL_HOST_PASSWORD='mbizkkjyyeczhwir'
 EMAIL_USE_TLS=True
 EMAIL_USE_SSL=False
 
